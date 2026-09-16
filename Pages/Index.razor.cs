@@ -16,6 +16,8 @@ public partial class IndexPage : ComponentBase
     protected string? privateMessage;
     protected SessionData? SessionData { get; private set; }
     protected bool HasSession => SessionData is not null;
+    protected string DisplayName => SessionData?.DisplayName ?? "visitante";
+    protected string UserInitial => DisplayName[..1].ToUpperInvariant();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -51,7 +53,6 @@ public partial class IndexPage : ComponentBase
     protected async Task LogoutAsync()
     {
         await Session.ClearAsync();
-        SessionData = null;
-        privateMessage = "Sessão encerrada.";
+        Navigation.NavigateTo("/login", forceLoad: true);
     }
 }

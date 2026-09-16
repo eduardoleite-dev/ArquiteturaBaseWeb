@@ -3,42 +3,49 @@
 
 <PageTitle>Home | ArquiteturaBaseWeb</PageTitle>
 
-<section class="hero">
-	<p class="eyebrow">TEMPLATE WEB .NET 10</p>
-	<h1>Uma base pequena para começar certo.</h1>
-	<p class="lede">Home pública, login integrado e sessão pronta para APIs protegidas.</p>
-
-	<div class="actions">
-		<button class="button primary" @onclick="LoadPublicAsync" disabled="@publicLoading">
-			@(publicLoading ? "Consultando..." : "Testar endpoint público")
-		</button>
-		<button class="button secondary" @onclick="LoadPrivateAsync" disabled="@privateLoading || !HasSession">
-			@(privateLoading ? "Consultando..." : "Testar endpoint privado")
-		</button>
+<header class="app-topbar">
+	<button class="menu-button" aria-label="Abrir menu">☰</button>
+	<div class="search-box"><span>⌕</span><input placeholder="Buscar recursos..." aria-label="Buscar recursos" /></div>
+	<div class="account-area">
+		<span class="notification-dot">♧</span>
+		<div class="account-divider"></div>
+		<div class="avatar">@UserInitial</div>
+		<div class="account-copy"><strong>@DisplayName</strong><span>@SessionData?.Role · nível @SessionData?.AccessLevel</span></div>
+		<button class="logout-button" @onclick="LogoutAsync">Sair</button>
 	</div>
+</header>
+
+<main class="dashboard-content">
+	<section class="welcome-banner">
+		<div>
+			<p class="banner-date">Base autenticada · sessão ativa</p>
+			<h1>Olá, @DisplayName! <span>👋</span></h1>
+			<p>Seu ambiente está pronto. Use os cartões abaixo para validar a comunicação com a API.</p>
+		</div>
+		<button class="banner-action" @onclick="LoadPrivateAsync" disabled="@privateLoading || !HasSession">
+			@(privateLoading ? "Consultando..." : "Verificar acesso →")
+		</button>
+	</section>
+
+	<section class="dashboard-cards" aria-live="polite">
+		<article class="dashboard-card card-public">
+			<div class="card-symbol">◎</div>
+			<span class="card-label">ENDPOINT PÚBLICO</span>
+			<h2>Hello World público</h2>
+			<p>@(publicMessage ?? "Nenhuma consulta realizada.")</p>
+			<button class="card-action" @onclick="LoadPublicAsync" disabled="@publicLoading">@(publicLoading ? "Consultando..." : "Consultar endpoint")</button>
+		</article>
+		<article class="dashboard-card card-private">
+			<div class="card-symbol">◆</div>
+			<span class="card-label">ENDPOINT PROTEGIDO</span>
+			<h2>Hello World privado</h2>
+			<p>@(privateMessage ?? "Disponível após autenticação.")</p>
+			<button class="card-action" @onclick="LoadPrivateAsync" disabled="@privateLoading || !HasSession">@(privateLoading ? "Consultando..." : "Consultar com token")</button>
+		</article>
+	</section>
 
 	@if (!HasSession)
 	{
-		<p class="hint">Faça login para testar o endpoint privado.</p>
+		<p class="hint">A sessão não foi encontrada. <a href="/login">Entrar novamente</a></p>
 	}
-	else
-	{
-		<div class="session-bar">
-			<span>Usuário: <strong>@SessionData!.Username</strong></span>
-			<button class="link-button" @onclick="LogoutAsync">Sair</button>
-		</div>
-	}
-</section>
-
-<section class="response-grid" aria-live="polite">
-	<article class="response-card">
-		<span class="card-label">PÚBLICO</span>
-		<h2>/api/HelloWorld/publico</h2>
-		<p class="status">@(publicMessage ?? "Nenhuma consulta realizada.")</p>
-	</article>
-	<article class="response-card protected">
-		<span class="card-label">PROTEGIDO</span>
-		<h2>/api/HelloWorld/privado</h2>
-		<p class="status">@(privateMessage ?? "Disponível após autenticação.")</p>
-	</article>
-</section>
+</main>

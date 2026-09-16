@@ -12,6 +12,10 @@ public partial class LoginPage : ComponentBase
     protected string password = string.Empty;
     protected string? errorMessage;
     protected bool loading;
+    protected string BannerEyebrow { get; set; } = "PLATAFORMA DE DESENVOLVIMENTO";
+    protected string BannerTitle { get; set; } = "Comece com uma base";
+    protected string BannerHighlight { get; set; } = "pronta para crescer.";
+    protected string BannerDescription { get; set; } = "Autenticação, sessão e integração com API já organizadas para você construir a próxima aplicação.";
 
     protected async Task HandleLoginAsync()
     {
