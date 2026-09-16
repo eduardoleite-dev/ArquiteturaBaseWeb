@@ -1,0 +1,44 @@
+﻿@page "/"
+@inherits IndexPage
+
+<PageTitle>Home | ArquiteturaBaseWeb</PageTitle>
+
+<section class="hero">
+	<p class="eyebrow">TEMPLATE WEB .NET 10</p>
+	<h1>Uma base pequena para começar certo.</h1>
+	<p class="lede">Home pública, login integrado e sessão pronta para APIs protegidas.</p>
+
+	<div class="actions">
+		<button class="button primary" @onclick="LoadPublicAsync" disabled="@publicLoading">
+			@(publicLoading ? "Consultando..." : "Testar endpoint público")
+		</button>
+		<button class="button secondary" @onclick="LoadPrivateAsync" disabled="@privateLoading || !HasSession">
+			@(privateLoading ? "Consultando..." : "Testar endpoint privado")
+		</button>
+	</div>
+
+	@if (!HasSession)
+	{
+		<p class="hint">Faça login para testar o endpoint privado.</p>
+	}
+	else
+	{
+		<div class="session-bar">
+			<span>Usuário: <strong>@SessionData!.Username</strong></span>
+			<button class="link-button" @onclick="LogoutAsync">Sair</button>
+		</div>
+	}
+</section>
+
+<section class="response-grid" aria-live="polite">
+	<article class="response-card">
+		<span class="card-label">PÚBLICO</span>
+		<h2>/api/HelloWorld/publico</h2>
+		<p class="status">@(publicMessage ?? "Nenhuma consulta realizada.")</p>
+	</article>
+	<article class="response-card protected">
+		<span class="card-label">PROTEGIDO</span>
+		<h2>/api/HelloWorld/privado</h2>
+		<p class="status">@(privateMessage ?? "Disponível após autenticação.")</p>
+	</article>
+</section>

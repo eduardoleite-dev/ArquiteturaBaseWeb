@@ -1,0 +1,27 @@
+@page "/login"
+@inherits LoginPage
+
+<PageTitle>Login | ArquiteturaBaseWeb</PageTitle>
+
+<section class="auth-panel">
+    <p class="eyebrow">ACESSO</p>
+    <h1>Entrar na aplicação</h1>
+    <p class="lede">A sessão será mantida enquanto esta aba estiver aberta.</p>
+
+    <form @onsubmit="HandleLoginAsync" @onsubmit:preventDefault>
+        <label for="username">Usuário</label>
+        <input id="username" @bind="username" autocomplete="username" disabled="@loading" />
+
+        <label for="password">Senha</label>
+        <input id="password" type="password" @bind="password" autocomplete="current-password" disabled="@loading" />
+
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <p class="error" role="alert">@errorMessage</p>
+        }
+
+        <button class="button primary full-width" type="submit" disabled="@loading">
+            @(loading ? "Entrando..." : "Entrar")
+        </button>
+    </form>
+</section>

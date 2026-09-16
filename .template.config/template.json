@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Eduardo Leite",
+  "classifications": ["Web", "Blazor", "API Client", "Template"],
+  "identity": "ArquiteturaBaseWeb.Template",
+  "name": "Arquitetura Base Web .NET 10",
+  "shortName": "baseweb",
+  "sourceName": "ArquiteturaBaseWeb",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            ".git/**",
+            ".azure/**",
+            "**/bin/**",
+            "**/obj/**"
+          ]
+        }
+      ]
+    }
+  ],
+  "symbols": {
+    "useHttps": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "true",
+      "description": "Configura o projeto para usar HTTPS localmente."
+    }
+  }
+}
